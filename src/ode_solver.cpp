@@ -36,19 +36,18 @@ matrix *solve_ode(double t0, double dt, double tend, const matrix &Y0, matrix *u
 matrix diff(double t, const matrix &Y, matrix *ud, matrix *ad)
 {
 #if LAB_NO==1 && LAB_PART==1
-	
+    matrix dY(2, 1);
+    dY(0) = Y(1);
+    dY(1) = ((*ud)(3) - (*ud)(1)*Y(1) - (*ud)(2)*Y(0)) / (*ud)(0);
+    return dY;
 #elif LAB_NO == 1 && LAB_PART == 2
-	
-#elif LAB_NO==2 && LAB_PART==3
-	
-#elif LAB_NO==3 && LAB_PART==3
-	
-#elif LAB_NO==4 && LAB_PART==2
-	
-#elif LAB_NO==7 && LAB_PART==2
-	
+    matrix dY(2, 1);
+dY(0) = Y(1);
+dY(1) = ((*ud)(3)*sin(2 * 3.14*(*ud)(4)*t) - (*ud)(1)*Y(1) - (*ud)(2)*Y(0)) / (*ud)(0);
+return dY;
 #else
-	matrix dY;
-	return dY;
+matrix dY;
+return dY;
 #endif
 }
+
