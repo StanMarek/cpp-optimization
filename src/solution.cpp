@@ -60,7 +60,7 @@ void solution::fit_fun(matrix *ud, matrix *ad)
 {
 	++f_calls;
 #if LAB_NO==2 && (LAB_PART==1 || LAB_PART==2)
-	
+	//-cos(0.1x)*exp(0.1)
 #elif LAB_NO==2 && LAB_PART==3
 	
 #elif LAB_NO==3 && (LAB_PART==1 || LAB_PART==2)

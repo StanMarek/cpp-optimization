@@ -48,11 +48,15 @@ cout << "FA = " << P(3) << endl;
 cout << "Ff = " << P(4) << endl;
 #endif
     }
-    catch (char * EX_INFO)
-    {
+    catch (char * EX_INFO) {
         cout << EX_INFO << endl;
     }
-    //system("pause");
+
+#ifdef _WIN32
+    system("pause");
+#elif __linux
+    printf("Enter any character to exit");
     int c = getchar();
+#endif
     return 0;
 }

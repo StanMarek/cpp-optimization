@@ -42,19 +42,23 @@ double *expansion(double x0, double d, double alpha, int Nmax, matrix *ud, matri
 
 solution fib(double a, double b, double epsilon, matrix *ud, matrix *ad)
 {
-	int n = ???;
+    double fi = (1+ sqrt(5))/2;
+    //double f = floor(fi/sqrt(5) + 0.5);
+    double f = (b-a)/epsilon;
+	int n = static_cast<int> (floor(log(f * sqrt(5) + 0.5)/log(fi)));
+
 	int *F = new int[n] {1, 1};
 	for (int i = 2; i < n; ++i)
-		F[i] = ???;
-	solution A(???), B(???), C, D;
-	C.x = ???;
-	D.x = ???;
+		F[i] = F[i-1] + F[i-2];
+	solution A(a), B(b), C, D;
+	C.x = B.x - F[n-2]/F[n-1] * (B.x - A.x);
+	D.x = A.x + B.x -C.x;
 	C.fit_fun(ud, ad);
 	D.fit_fun(ud, ad);
 	for (int i = 0; i <= n - 3; ++i)
 	{
-		if (???)
-			???;
+		if (C.y < D.y)
+			A.x = A.;
 		else
 			???;
 		C.x = ???;

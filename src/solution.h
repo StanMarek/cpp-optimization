@@ -4,6 +4,7 @@
 #define SOLUTION_H
 
 #include"ode_solver.h"
+#include<cmath>
 
 class solution
 {
