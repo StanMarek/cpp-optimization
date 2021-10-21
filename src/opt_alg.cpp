@@ -51,18 +51,22 @@ solution fib(double a, double b, double epsilon, matrix *ud, matrix *ad)
 	for (int i = 2; i < n; ++i)
 		F[i] = F[i-1] + F[i-2];
 	solution A(a), B(b), C, D;
-	C.x = B.x - F[n-2]/F[n-1] * (B.x - A.x);
-	D.x = A.x + B.x -C.x;
+	C.x = B.x(0) - F[n-2]/F[n-1] * (B.x(0) - A.x(0));
+	D.x = A.x(0) + B.x(0) -C.x(0);
 	C.fit_fun(ud, ad);
 	D.fit_fun(ud, ad);
 	for (int i = 0; i <= n - 3; ++i)
 	{
-		if (C.y < D.y)
-			A.x = A.;
-		else
-			???;
-		C.x = ???;
-		D.x = ???;
+		if (C.y(i) < D.y(i)) {
+            A.x(i + 1) = A.x(i);
+            B.x(i + 1) = D.x(i);
+        }
+		else {
+            B.x(i+1) = B.x(i);
+            A.x(i+i) = C.x(i);
+        }
+		C.x(i+1) = B.x(i+1) - F[-i-3]/F[-i-2] * (B.x(i+1) - A.x(i+1));
+		D.x(i+1) = A.x(i+1) + B.x(i+1) - C.x(i+1);
 		C.fit_fun(ud, ad);
 		D.fit_fun(ud, ad);
 #if LAB_NO==2 && LAB_PART==2
@@ -74,45 +78,54 @@ solution fib(double a, double b, double epsilon, matrix *ud, matrix *ad)
 
 solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix *ud, matrix *ad)
 {
-	solution A(???), B(???), C, D, D_old(a);
+	solution A(a), B(b), C, D, D_old(a);
 	C.x = ???;
 	A.fit_fun(ud, ad);
 	B.fit_fun(ud, ad);
 	C.fit_fun(ud, ad);
 	double l, m;
+    int i = 0;
 	while (true)
 	{
 		l = A.y(0)*(pow(B.x(0), 2) - pow(C.x(0), 2)) + B.y(0)*(pow(C.x(0), 2) - pow(A.x(0), 2)) + C.y(0)*(pow(A.x(0), 2) - pow(B.x(0), 2));
 		m = A.y(0)*(B.x(0) - C.x(0)) + B.y(0)*(C.x(0) - A.x(0)) + C.y(0)*(A.x(0) - B.x(0));
-		if (???)
+		if (???) // <----- tego gowna nie bylo na schemacie blokowym ale chujnia chlopaki co robimy?
 		{
 			C.x = NAN;
 			C.y = NAN;
 			return C;
 		}
-		D.x = ???;
+		D.x = 0.5 * l/m;
 		D.fit_fun(ud, ad);
-		if (???)
+
+        if (A.x(i) < D.x(i) && A.x(i) < C.x(i) && D.x(i) < C.x(i))
 		{
-			if (???)
+			if (D.y(i) < C.y(i))
 			{
-				???;
-				???;
+				A.x(i+1) = A.x(i);
+				C.x(i+1) = D.x(i);
+                B.x(i+1) = C.x(i);
 			}
 			else
-				???;
+				A.x(i+1) = D.x(i);
+                C.x(i+1) = C.x(i);
+                B.x(i+1) = B.x(i);
 		}
-		else if (???)
+		else if (C.x(i) < D.x(i) && C.x(i) < B.x(i) && D.x(i) < B.x(i))
 		{
-			if (???)
+			if (D.y(i) < C.y(i))
 			{
-				???;
-				???;
+				A.x(i+1) = C.x(i);
+				C.x(i+1) = D.x(i);
+                B.x(i+1) = B.x(i);
 			}
-			else
-				???;
+			else {
+                A.x(i+1) = A.x(i);
+                C.x(i+1) = C.x(i);
+                B.x(i+1) = D.x(i);
+            }
 		}
-		else
+		else // return error
 		{
 			C.x = NAN;
 			C.y = NAN;
