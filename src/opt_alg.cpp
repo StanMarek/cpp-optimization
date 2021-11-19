@@ -149,7 +149,7 @@ solution HJ(matrix x0, double s, double alpha, double epsilon, int Nmax, matrix 
 				XB_old = XB;
 				XB = X;
 #if LAB_NO==3 && LAB_PART==2
-				? ? ?
+				(*ud).add_row(trans(XB.x)); //dodaj do x do ud
 #endif
 				X.x = 2 * XB.x - XB_old.x;
 				X.fit_fun(ud, ad);
@@ -214,7 +214,7 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 			}
 		}
 #if LAB_NO==3 && LAB_PART==2
-		???
+		(*ud).add_row(trans(X.x));//dodaj do x do ud
 #endif
 		bool change = true;
 		for (int i = 0; i < n; ++i)

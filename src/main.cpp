@@ -26,103 +26,51 @@ int main()
 
 
 #elif LAB_NO==1 && LAB_PART==2
-
+		
 #elif LAB_NO==2 && LAB_PART==1
+		double x0 = -20, d = 1, alpha = 2, epsilon = 1e-5, gamma = 1e-200;
+		int Nmax = 1000;
 
-        ofstream sout("wynikiPart1.csv");
+		//3 r�zne warto��i alfa - 100 pr�b dla ka�dego od -100 do 100 dla losowych x0
+		double *p = expansion(x0, d, alpha, Nmax);
+		cout << p[0] << "\t" << p[1]<<endl;
 
-        srand(time(NULL));
+		solution::clear_calls();
 
-        double x0 = -20;
+		solution opt_F = fib(p[0], p[1], epsilon);
+		cout << opt_F;
 
-        double d = 1;
+		solution::clear_calls();
 
-        double epsilon = 1e-5;
+		solution opt_L = lag(p[0], p[1], epsilon, gamma, Nmax);
+		cout << opt_L;
 
-        double alpha[3] = {1.0, 1.5, 2};
-
-        int Nmax = 1000;
-
-        double gamma = 1e-200;
-
-        for(int a = 0; a < 3; a++){
-
-            for(int i = 0; i < 100; i++) {
-
-                double fMin = -100;
-
-                double fMax = 100;
-
-                double f = (double)rand() / RAND_MAX;
-
-                double x0 = fMin + f * (fMax - fMin);
-
-                double *p = expansion(x0, d, alpha[a], Nmax);
-
-                sout << x0 << ";" << p[0] << ";" << p[1] << ";" << solution::f_calls << ";";
-
-                solution::clear_calls();
-
-                solution fibonacci = fib(p[0], p[1], epsilon);
-
-                bool min = false;
-
-                if(fibonacci.y < -0.5) {
-
-                    min = true;
-
-                }
-
-                sout << fibonacci.x(0) << ";" << fibonacci.y(0) << ";" << solution::f_calls << ";" << min << ";";
-
-                solution::clear_calls();
-
-                solution lagrange = lag(p[0], p[1], epsilon, gamma, Nmax);
-
-                min = false;
-
-                if(lagrange.y < -0.5) {
-
-                    min = true;
-
-                }
-
-                sout << lagrange.x(0) << ";" << lagrange.y(0) << ";" << solution::f_calls << ";" << min << "\n";
-
-                solution::clear_calls();
-
-            }
-
-        }
-
-        sout.close();
 
 #elif LAB_NO==2 && LAB_PART==2
+		double x0 = -20, d = 1, alpha = 2, epsilon = 1e-5, gamma = 1e-200;
+		int Nmax = 1000;
 
-        double epsilon = 1e-5, gamma = 1e-200;
+		matrix ab_F(1, 1, 200);
 
-        int Nmax = 1000;
+		solution opt_F = fib(-100, 100, epsilon, &ab_F);
+		std::cout << ab_F;
 
-        matrix ab_F(1, 1, 200);
+		solution::clear_calls();
 
-        solution opt_F = fib(-100, 100, epsilon, &ab_F);
 
-        std::cout << ab_F;
+		/*matrix ab_L(1, 1, 200);
 
-        solution::clear_calls();
+		solution::clear_calls();
 
-        cout << endl;
+		solution opt_L = lag(-100, 100, epsilon, gamma, Nmax, &ab_L);
+		std::cout << ab_L;*/
 
-        matrix ab_L(1, 1, 200);
-
-        solution opt_L = lag(-100, 100, epsilon, gamma, Nmax, &ab_L);
-
-        std::cout << ab_L;
-
-        solution::clear_calls();
-
+		
 #elif LAB_NO==2 && LAB_PART==3
-
+		solution test(0.001);
+		test.fit_fun();
+		cout << test;
+		
 #elif LAB_NO==3 && LAB_PART==1
 		double s = 0.1, alphaHJ = 0.5, alphaR = 2, beta = 0.5, epsilon = 1e-3;
 		int Nmax = 5000;
@@ -138,9 +86,35 @@ int main()
 		solution::clear_calls();
 		
 #elif LAB_NO==3 && LAB_PART==2
+		double s = 0.1, alphaHJ = 0.5, alphaR = 2, beta = 0.5, epsilon = 1e-3;
+		int Nmax = 5000;
+		//matrix x0 = 2 * rand_mat(2, 1) - 1;
+		matrix s0(2, 1, s);
+		matrix x0(2, 1, -0.1);
+
+		matrix XSHJ = trans(x0);
+		matrix XSRosen = trans(x0);
+
+		solution optHJ = HJ(x0, s, alphaHJ, epsilon, Nmax, &XSHJ);
+		cout << optHJ << endl << endl;
+		solution::clear_calls();
+		solution optR = Rosen(x0, s0, alphaR, beta, epsilon, Nmax, &XSRosen);
+		cout << optR << endl << endl;
+		solution::clear_calls();
 		
 #elif LAB_NO==3 && LAB_PART==3
-		
+        double dt = 0.1, alphaHJ = 0.5, alphaR = 2, beta = 0.5, epsilon = 1e-3;
+        int Nmax = 5000;
+        matrix x0 = 10 * rand_mat(2, 1);
+        matrix s0(2, 1, dt);
+
+        solution optHJ = HJ(x0, dt, alphaHJ, epsilon, Nmax);
+        cout << "HJ:\n" << optHJ << endl;
+
+        solution::clear_calls();
+        solution optR = Rosen(x0, s0, alphaR, beta, epsilon, Nmax);
+        cout << "Rosen:\n" << optR << endl;
+        solution::clear_calls();
 #elif LAB_NO==4 && LAB_PART==1
 		
 #elif LAB_NO==4 && LAB_PART==2

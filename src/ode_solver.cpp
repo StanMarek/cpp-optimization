@@ -54,8 +54,16 @@ matrix diff(double t, const matrix &Y, matrix *ud, matrix *ad)
 	dY(2) = Fin / Y(1)*(Tin - Y(2)) + FAout/Y(1)*(TA-Y(2));
 
 	return dY;
+
 	
 #elif LAB_NO==3 && LAB_PART==3
+	double mr = 1, mc = 10, l = 0.5, b = 0.5, a_ref = 3.14, o_ref = 0;
+	double I = mr*l*l / 3 + mc*l*l, k1 = (*ad)(0), k2 = (*ad)(1);
+	double m = k1*(a_ref - Y(0)) + k2*(o_ref - Y(1));
+	matrix dY(2, 1);
+	dY(0) = Y(1);
+	dY(1) = (m - b*Y(1)) / I;
+	return dY;
 	
 #elif LAB_NO==4 && LAB_PART==2
 	
