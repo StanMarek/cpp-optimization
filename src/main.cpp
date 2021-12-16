@@ -207,23 +207,45 @@ int main()
 
 
 #elif LAB_NO==5 && LAB_PART==1
-		matrix x0 = 20 * rand_mat(2, 1) - 10;
-		double h0 = 0.05, epsilon = 1e-5;
+		
+		// double h0 = 0.05;
+		// double h0 = 0.12;
+		double h0 = -1;
+		double epsilon = 1e-5;
 		int Nmax = 10000;
-		solution optSD, optCG, optN;
-		optSD = SD(x0, h0, epsilon, Nmax);
-		cout << optSD << endl << endl;
-		solution::clear_calls();
-		optCG = CG(x0, h0, epsilon, Nmax);
-		cout << optCG << endl << endl;
-		solution::clear_calls();
-		optN = Newton(x0, h0, epsilon, Nmax);
-		cout << optN << endl << endl;
-		solution::clear_calls();
+
+		ofstream soutSD("sd.xlsx");
+		ofstream soutCG("cg.xlsx");
+		ofstream soutN("newton.xlsx");
+
+		for(int i = 0; i < 100; i++) {
+			matrix x0 = 20 * rand_mat(2, 1) - 10;
+			
+			solution optSD, optCG, optN;
+			optSD = SD(x0, h0, epsilon, Nmax);
+			// cout << optSD << endl;
+			// cout << "solution.x(0) " << optSD.x(0) << "\tsolution.x(1) " << optSD.x(1) << endl;
+			// cout << "solution.y " << optSD.y << endl;
+			// cout << "solution.f_calls " << optSD.f_calls << "\tsolution.g_calls " << optSD.g_calls << endl;
+			soutSD << x0(0) << ";" << x0(1) << ";" << optSD.x(0) << ";" << optSD.x(1) << ";" << optSD.y << optSD.f_calls << ";" << optSD.g_calls << ";\n"; 
+			// cout << x0(0) << ";" << x0(1) << ";" << optSD.x(0) << ";" << optSD.x(1) << ";" << optSD.y << optSD.f_calls << ";" << optSD.g_calls << ";\n"; 
+			solution::clear_calls();
+
+			optCG = CG(x0, h0, epsilon, Nmax);
+			soutCG << optCG.x(0) << ";" << optCG.x(1) << ";" << optCG.y << optCG.f_calls << ";" << optCG.g_calls << ";\n";
+			cout << optCG.x(0) << ";" << optCG.x(1) << ";" << optCG.y << optCG.f_calls << ";" << optCG.g_calls << ";\n";
+			solution::clear_calls();
+
+			optN = Newton(x0, h0, epsilon, Nmax);
+			soutN << optN.x(0) << ";" << optN.x(1) << ";" << optN.y << optN.f_calls << ";" << optN.g_calls << ";" << optN.H_calls << ";\n";
+			// cout << optN.x(0) << ";" << optN.x(1) << ";" << optN.y << optN.f_calls << ";" << optN.g_calls << ";" << optN.H_calls << ";\n";
+			solution::clear_calls();
+
+		}
 
 #elif LAB_NO==5 && LAB_PART==2
 	matrix x0 = 20 * rand_mat(2, 1) - 10;
-	double h0 = 0.05, epsilon = 1e-5;
+	double h0 = 0.12, epsilon = 1e-5;
 	int Nmax = 10000;
 	solution optSD, optCG, optN;
 	optSD = SD(x0, h0, epsilon, Nmax);
@@ -256,6 +278,6 @@ int main()
 	{
 		std::cout << EX_INFO << endl;
 	}
-	system("pause");
+	// system("pause");
 	return 0;
 }
