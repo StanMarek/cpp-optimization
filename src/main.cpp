@@ -244,26 +244,82 @@ int main()
 		}
 
 #elif LAB_NO==5 && LAB_PART==2
-	matrix x0 = 20 * rand_mat(2, 1) - 10;
-	double h0 = 0.12, epsilon = 1e-5;
-	int Nmax = 10000;
-	solution optSD, optCG, optN;
-	optSD = SD(x0, h0, epsilon, Nmax);
-	cout << optSD << endl << endl;
-	solution::clear_calls();
-	optCG = CG(x0, h0, epsilon, Nmax);
-	cout << optCG << endl << endl;
-	solution::clear_calls();
-	optN = Newton(x0, h0, epsilon, Nmax);
-	cout << optN << endl << endl;
-	solution::clear_calls();
+		// double h0 = -0.05; 
+		// double h0 = -0.12; 
+		double h0 = -1;
+
+		double epsilon = 1e-5;
+		int Nmax = 10000;
+
+		ofstream soutSD("sd2.xlsx");
+		ofstream soutCG("cg2.xlsx");
+		ofstream soutN("newton2.xlsx");
+
+		matrix x0, *ud;
+
+		x0 = rand_mat(2, 1) * 20 - 10;
+		ud = new matrix(1, 2);
+		(*ud).add_row(trans(x0));
+
+		solution optSD, optCG, optN;
+
+		optSD = SD(x0, h0, epsilon, Nmax, ud);
+		soutSD << *ud;
+		solution::clear_calls();
+
+		ud = new matrix(1, 2);
+		ud->add_row(trans(x0));
+		optCG = CG(x0, h0, epsilon, Nmax, ud);
+		soutCG << *ud;
+		solution::clear_calls();
+
+		ud = new matrix(1, 2);
+		ud->add_row(trans(x0));
+		optN = Newton(x0, h0, epsilon, Nmax, ud);
+		soutN << *ud;
+
+		
 #elif LAB_NO==5 && LAB_PART==3
-		matrix x0(3, new double[3]{ -1, 0.1, 0.1 });
-		solution test(x0);
-		test.fit_fun();
-		test.grad();
-		cout << test<<endl;
-		cout << test.g << endl;
+
+		// double h0 = 0.01;
+		// double h0 = 0.001;
+		double h0 = 0.0001;
+
+		double epsilon = 1e-5;
+		int Nmax = 100000;
+
+		matrix x0(3, 1);
+
+		ofstream realProblemOut("cg3.xlsx");
+	
+		solution optCG = CG(x0, h0, epsilon, Nmax);
+
+		int m = 100;
+		matrix X(3, m), Y(1, m);
+
+		ifstream Xinput("XData.txt");
+		Xinput >> X;
+		Xinput.close();
+
+		ifstream Yinput("YData.txt");
+		Yinput >> Y;
+		Yinput.close();
+
+		double h, P = 0.;
+		for (int i = 0; i < m; i++)
+		{
+			h = 1. / (1. + exp(-(trans(optCG.x) * X[i])()));
+			if (lroundf(h) == Y(0, i))
+				h = 1.;
+			else
+				h = 0.;
+			P += h;
+		}
+		P /= m;
+
+		realProblemOut << optCG.x(0) << ";" << optCG.x(1) << ";" << optCG.x(2) << ";" << optCG.y << solution::g_calls << ";" << P << endl;
+
+	
 #elif LAB_NO==6 && LAB_PART==1
 
 #elif LAB_NO==6 && LAB_PART==2

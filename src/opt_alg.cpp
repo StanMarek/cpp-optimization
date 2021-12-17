@@ -386,18 +386,18 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 			X1.x = X.x + h.x * d;
 		}
 		else
-			X1.x = X.x + h0 * d;
+			X1.x = X.x + (h0 * d);
 #if LAB_NO == 5 && LAB_PART == 2
 		(*ud).add_row(trans(X1.x));
 #endif
-		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax)
+		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || norm(X.g) < epsilon || solution::g_calls > Nmax)
 		{
-			X1.fit_fun(ud, ad);
+			X1.fit_fun(ud);
 			return X1;
 		}
 		X1.grad();
 		beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
-		d = -X1.g + beta * d;
+		d = (-X1.g) + (beta * d);
 		X = X1;
 	}
 }
