@@ -1,3 +1,4 @@
+# Stan Marek to kozak
 CC = g++
 FLAG = -fpermissive
 SOURCE = src/

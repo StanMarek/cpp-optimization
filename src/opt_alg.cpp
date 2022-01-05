@@ -331,7 +331,7 @@ solution sym_NM(matrix x0, double s, double alpha, double beta, double gamma, do
 }
 #endif
 #if LAB_NO > 4
-solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *ad) //Naszybszy spadek
+solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *ad)
 {
 	int n = get_len(x0);
 	solution X, X1;
@@ -342,8 +342,8 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 	while (true)
 	{
 		X.grad();
-		d = -X.g;		// g - gradient
-		if (h0 < 0) // wersja zmienno-krakowa
+		d = -X.g;	
+		if (h0 < 0) 
 		{
 			P[0] = X.x;
 			P[1] = d;
@@ -415,7 +415,7 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matr
 		X.grad();
 		X.hess();
 		d = -inv(X.H) * X.g;
-		if (h0 < 0) // wersja zmienno-krakowa
+		if (h0 < 0)
 		{
 			P[0] = X.x;
 			P[1] = d;

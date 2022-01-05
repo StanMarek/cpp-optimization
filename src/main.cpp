@@ -212,7 +212,7 @@ int main()
 		// double h0 = 0.12;
 		double h0 = -1;
 		double epsilon = 1e-5;
-		int Nmax = 10000;
+		int Nmax = 100000;
 
 		ofstream soutSD("sd.xlsx");
 		ofstream soutCG("cg.xlsx");
@@ -244,12 +244,12 @@ int main()
 		}
 
 #elif LAB_NO==5 && LAB_PART==2
-		// double h0 = -0.05; 
+		double h0 = -0.05; 
 		// double h0 = -0.12; 
-		double h0 = -1;
+		//double h0 = -1;
 
 		double epsilon = 1e-5;
-		int Nmax = 10000;
+		int Nmax = 100000;
 
 		ofstream soutSD("sd2.xlsx");
 		ofstream soutCG("cg2.xlsx");
@@ -317,7 +317,7 @@ int main()
 		}
 		P /= m;
 
-		realProblemOut << optCG.x(0) << ";" << optCG.x(1) << ";" << optCG.x(2) << ";" << optCG.y << solution::g_calls << ";" << P << endl;
+		realProblemOut << optCG.x(0) << ";" << optCG.x(1) << ";" << optCG.x(2) << ";" << optCG.y << ";" << P << ";" << solution::g_calls << endl;
 
 	
 #elif LAB_NO==6 && LAB_PART==1
